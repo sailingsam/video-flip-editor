@@ -11,7 +11,7 @@ const VideoPlayer = () => {
   const [currentPosition, setCurrentPosition] = useState(0);
   const [duration, setDuration] = useState(0);
   const [aspectRatio, setAspectRatio] = useState(16 / 9);
-  const [videoHeight, setVideoHeight] = useState(0);
+  const [videoHeight, setVideoHeight] = useState(9);
   const playerRef = useRef(null);
 
   const handlePlayPause = () => {
@@ -57,7 +57,7 @@ const VideoPlayer = () => {
           playbackRate={playbackRate}
           volume={volume}
           width="100%"
-          height="auto"
+          height="290px"
           onEnded={() => {
             setPlaying(false);
             setCurrentPosition(0);

@@ -6,7 +6,7 @@ const Cropper = ({ aspectRatio, videoHeight }) => {
     x: 0,
     y: 0,
     width: videoHeight * aspectRatio,
-    height: videoHeight,
+    height:290,
   });
 
   useEffect(() => {
