@@ -4,7 +4,7 @@ import PlaybackControls from "./PlaybackControls";
 import Cropper from "./VideoCropper";
 import Vid from "../../../assets/vid.mp4";
 
-const VideoPlayer = () => {
+const VideoPlayer = ({ cropperActive }) => {
   const [playing, setPlaying] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1.0);
   const [volume, setVolume] = useState(1);
@@ -64,7 +64,9 @@ const VideoPlayer = () => {
             playerRef.current.seekTo(0);
           }}
         />
-        <Cropper aspectRatio={aspectRatio} videoHeight={videoHeight} />
+        {cropperActive && (
+          <Cropper aspectRatio={aspectRatio} videoHeight={videoHeight} />
+        )}
       </div>
       <PlaybackControls
         playing={playing}
