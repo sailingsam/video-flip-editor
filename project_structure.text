@@ -1,0 +1,30 @@
+- .eslintrc.cjs
+- .gitignore
+- README.md
+- index.html
+- package-lock.json
+- package.json
+- postcss.config.js
+- project_structure.text
+- public
+  - vite.svg
+- src
+  - App.css
+  - App.jsx
+  - assets
+    - react.svg
+    - vid.mp4
+  - components
+    - generate_sessionsPage
+      - Generate_sessions.jsx
+      - Mainvideosection
+        - CropperLayer.jsx
+        - PlaybackControls.jsx
+        - VideoCropper.jsx
+        - VideoPlayer.jsx
+      - previewarea
+    - preview_sessionsPage
+  - index.css
+  - main.jsx
+- tailwind.config.js
+- vite.config.js
