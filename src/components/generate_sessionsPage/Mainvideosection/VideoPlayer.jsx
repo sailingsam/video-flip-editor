@@ -11,7 +11,7 @@ const VideoPlayer = () => {
   const [currentPosition, setCurrentPosition] = useState(0);
   const [duration, setDuration] = useState(0);
   const [aspectRatio, setAspectRatio] = useState(16 / 9);
-  const [videoHeight, setVideoHeight] = useState(9);
+  const [videoHeight, setVideoHeight] = useState(290);
   const playerRef = useRef(null);
 
   const handlePlayPause = () => {
@@ -39,13 +39,13 @@ const VideoPlayer = () => {
       if (playerRef.current) {
         setCurrentPosition(playerRef.current.getCurrentTime());
         setDuration(playerRef.current.getDuration());
-        const height = playerRef.current.wrapper.clientHeight;
-        setVideoHeight(height);
       }
+      const height = playerRef.current.wrapper.clientHeight;
+      setVideoHeight(height);
     }, 200);
 
     return () => clearInterval(interval);
-  }, [setCurrentPosition]);
+  }, []);
 
   return (
     <div className="flex flex-col items-center relative">

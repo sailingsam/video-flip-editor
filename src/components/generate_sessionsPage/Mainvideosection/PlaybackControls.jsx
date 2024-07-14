@@ -81,7 +81,7 @@ const PlaybackControls = ({
         <div className="rounded-md border border-gray-600 p-1 px-2 flex items-center my-4 ml-3">
           <label className="text-white text-sm">Cropper Aspect Ratio</label>
           <select className="text-gray-400 bg-transparent" onChange={(e) => {onAspectRatioChange(parseFloat(e.target.value))}}>
-            <option value={0.5}>9:18</option>
+            <option value={9 / 18}>9:18</option>
             <option value={9 / 16}>9:16</option>
             <option value={4 / 3}>4:3</option>
             <option value={3 / 4}>3:4</option>

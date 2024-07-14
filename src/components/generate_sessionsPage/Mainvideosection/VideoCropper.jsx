@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import Draggable from 'react-draggable';
+import React, { useState, useEffect } from "react";
+import Draggable from "react-draggable";
 
 const Cropper = ({ aspectRatio, videoHeight }) => {
   const [cropperState, setCropperState] = useState({
     x: 0,
     y: 0,
     width: videoHeight * aspectRatio,
-    height:290,
+    height: 290,
   });
 
   useEffect(() => {
@@ -35,10 +35,17 @@ const Cropper = ({ aspectRatio, videoHeight }) => {
         style={{
           width: cropperState.width,
           height: cropperState.height,
-          border: '2px dashed #fff',
-          position: 'absolute',
+          border: "2px solid #fff",
+          position: "absolute",
         }}
-      />
+        className="grid grid-cols-3 grid-rows-3"
+      >
+        {Array(9)
+          .fill(null)
+          .map((_, index) => (
+            <div key={index} className="border border-dashed"></div>
+          ))}
+      </div>
     </Draggable>
   );
 };
