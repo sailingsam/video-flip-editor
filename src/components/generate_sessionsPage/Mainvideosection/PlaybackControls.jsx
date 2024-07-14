@@ -12,6 +12,7 @@ const PlaybackControls = ({
   currentPosition,
   duration,
   onSeek,
+  onAspectRatioChange,
 }) => {
   const handleSeekChange = (e) => {
     const newTime = (e.target.value / 100) * duration;
@@ -23,7 +24,7 @@ const PlaybackControls = ({
     const minutes = Math.floor((seconds % 3600) / 60);
     const secondsLeft = Math.floor(seconds % 60);
 
-    return `${pad(hours)}:${pad(minutes)}:${pad(secondsLeft)}` ;
+    return `${pad(hours)}:${pad(minutes)}:${pad(secondsLeft)}`;
   }
 
   return (
@@ -77,11 +78,9 @@ const PlaybackControls = ({
             <option value={2.0}>2x</option>
           </select>
         </div>
-<div className="rounded-md border border-gray-600 p-1 px-2 flex items-center my-4 ml-3">
+        <div className="rounded-md border border-gray-600 p-1 px-2 flex items-center my-4 ml-3">
           <label className="text-white text-sm">Cropper Aspect Ratio</label>
-          <select
-            className="text-gray-400 bg-transparent"
-          >
+          <select className="text-gray-400 bg-transparent" onChange={(e) => {onAspectRatioChange(parseFloat(e.target.value))}}>
             <option value={0.5}>9:18</option>
             <option value={9 / 16}>9:16</option>
             <option value={4 / 3}>4:3</option>

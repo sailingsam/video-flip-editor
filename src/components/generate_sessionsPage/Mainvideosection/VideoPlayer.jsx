@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
 import PlaybackControls from "./PlaybackControls";
-import Vid from "../../../assets/vid.mp4";
 import Cropper from "./VideoCropper";
+import Vid from "../../../assets/vid.mp4";
 
 const VideoPlayer = () => {
   const [playing, setPlaying] = useState(false);
@@ -10,6 +10,8 @@ const VideoPlayer = () => {
   const [volume, setVolume] = useState(1);
   const [currentPosition, setCurrentPosition] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [aspectRatio, setAspectRatio] = useState(16 / 9);
+  const [videoHeight, setVideoHeight] = useState(0);
   const playerRef = useRef(null);
 
   const handlePlayPause = () => {
@@ -28,20 +30,25 @@ const VideoPlayer = () => {
     playerRef.current.seekTo(time);
   };
 
+  const handleAspectRatioChange = (aspectRatio) => {
+    setAspectRatio(aspectRatio);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (playerRef.current) {
         setCurrentPosition(playerRef.current.getCurrentTime());
         setDuration(playerRef.current.getDuration());
+        const height = playerRef.current.wrapper.clientHeight;
+        setVideoHeight(height);
       }
-    }, 20); // Update every 20 milliseconds
+    }, 200);
 
-    return () => clearInterval(interval); // Clear interval on component unmount
+    return () => clearInterval(interval);
   }, [setCurrentPosition]);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center relative">
       <div className="rounded-md overflow-hidden" onClick={handlePlayPause}>
         <ReactPlayer
           ref={playerRef}
@@ -49,15 +56,15 @@ const VideoPlayer = () => {
           playing={playing}
           playbackRate={playbackRate}
           volume={volume}
-          width="500px"
+          width="100%"
           height="auto"
           onEnded={() => {
             setPlaying(false);
             setCurrentPosition(0);
             playerRef.current.seekTo(0);
           }}
-          // controls
         />
+        <Cropper aspectRatio={aspectRatio} videoHeight={videoHeight} />
       </div>
       <PlaybackControls
         playing={playing}
@@ -69,6 +76,7 @@ const VideoPlayer = () => {
         currentPosition={currentPosition}
         duration={duration}
         onSeek={handleSeek}
+        onAspectRatioChange={handleAspectRatioChange}
       />
     </div>
   );
