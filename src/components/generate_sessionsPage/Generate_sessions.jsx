@@ -10,7 +10,7 @@ export default function generate_sessions() {
         </div>
         {/* generate preview section */}
         <div className="flex-1">
-          
+          <h2 className="text-white">Dynamic Preview</h2>
         </div>
       </div>
     </div>

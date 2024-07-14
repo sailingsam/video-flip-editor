@@ -1,35 +1,46 @@
-import React, { useState, useCallback } from "react";
-import Cropper from "react-easy-crop";
+import React, { useState, useEffect } from 'react';
+import Draggable from 'react-draggable';
 
-const VideoCropper = ({ videoRef, aspectRatio, onCropChange, onCropComplete }) => {
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
+const Cropper = ({ aspectRatio, videoHeight }) => {
+  const [cropperState, setCropperState] = useState({
+    x: 0,
+    y: 0,
+    width: videoHeight * aspectRatio,
+    height: videoHeight,
+  });
 
-  const onCropSizeChange = useCallback(
-    (cropSize) => {
-      const { width, height } = cropSize;
-      const aspect = aspectRatio.split(":").map(Number);
-      const aspectWidth = aspect[0];
-      const aspectHeight = aspect[1];
-      const newHeight = (width / aspectWidth) * aspectHeight;
-      setCrop({ width, height: newHeight });
-    },
-    [aspectRatio]
-  );
+  useEffect(() => {
+    setCropperState((prevState) => ({
+      ...prevState,
+      width: videoHeight * aspectRatio,
+      height: videoHeight,
+    }));
+  }, [aspectRatio, videoHeight]);
+
+  const handleDrag = (e, data) => {
+    setCropperState({
+      ...cropperState,
+      x: data.x,
+      y: data.y,
+    });
+  };
 
   return (
-    <Cropper
-      video={videoRef.current && videoRef.current.getInternalPlayer().getVideoSrc()}
-      crop={crop}
-      zoom={zoom}
-      aspect={parseFloat(aspectRatio)}
-      onCropChange={setCrop}
-      onCropComplete={onCropComplete}
-      onZoomChange={setZoom}
-      cropShape="rect"
-      showGrid={false}
-    />
+    <Draggable
+      bounds="parent"
+      position={{ x: cropperState.x, y: cropperState.y }}
+      onStop={handleDrag}
+    >
+      <div
+        style={{
+          width: cropperState.width,
+          height: cropperState.height,
+          border: '2px dashed #fff',
+          position: 'absolute',
+        }}
+      />
+    </Draggable>
   );
 };
 
-export default VideoCropper;
+export default Cropper;

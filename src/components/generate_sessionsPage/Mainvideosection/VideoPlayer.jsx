@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
 import PlaybackControls from "./PlaybackControls";
 import Vid from "../../../assets/vid.mp4";
+import Cropper from "./VideoCropper";
 
 const VideoPlayer = () => {
   const [playing, setPlaying] = useState(false);
@@ -27,13 +28,14 @@ const VideoPlayer = () => {
     playerRef.current.seekTo(time);
   };
 
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (playerRef.current) {
         setCurrentPosition(playerRef.current.getCurrentTime());
         setDuration(playerRef.current.getDuration());
       }
-    }, 20); // Update every 200 milliseconds
+    }, 20); // Update every 20 milliseconds
 
     return () => clearInterval(interval); // Clear interval on component unmount
   }, [setCurrentPosition]);
@@ -47,7 +49,7 @@ const VideoPlayer = () => {
           playing={playing}
           playbackRate={playbackRate}
           volume={volume}
-          width="100%"
+          width="500px"
           height="auto"
           onEnded={() => {
             setPlaying(false);
