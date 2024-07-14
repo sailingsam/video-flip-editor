@@ -1,38 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
 
-const VideoCropper = ({
-  videoRef,
-  aspectRatio,
-  onCropChange,
-  onCropComplete,
-}) => {
+const VideoCropper = ({ videoRef, aspectRatio, onCropChange, onCropComplete }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
 
-  const aspect = aspectRatio.split(":").map(Number);
-  const aspectValue = aspect[0] / aspect[1];
+  const onCropSizeChange = useCallback(
+    (cropSize) => {
+      const { width, height } = cropSize;
+      const aspect = aspectRatio.split(":").map(Number);
+      const aspectWidth = aspect[0];
+      const aspectHeight = aspect[1];
+      const newHeight = (width / aspectWidth) * aspectHeight;
+      setCrop({ width, height: newHeight });
+    },
+    [aspectRatio]
+  );
 
   return (
-    <div className="h-full">
-      <Cropper
-        video={videoRef}
-        crop={crop}
-        aspect={aspectValue}
-        onCropChange={setCrop}
-        onCropComplete={onCropComplete}
-        cropShape="rect"
-        showGrid={true}
-        zoomWithScroll={false} // Disable zoom with scroll
-        interactionMode="onCropChange" // Move grid instead of media
-        classes={{
-          containerClassName: "h-full",
-        }}
-        style={{
-          containerStyle: { height: "100%", width: "100%" },
-          mediaStyle: { height: "100%", width: "100%" },
-        }}
-      />
-    </div>
+    <Cropper
+      video={videoRef.current && videoRef.current.getInternalPlayer().getVideoSrc()}
+      crop={crop}
+      zoom={zoom}
+      aspect={parseFloat(aspectRatio)}
+      onCropChange={setCrop}
+      onCropComplete={onCropComplete}
+      onZoomChange={setZoom}
+      cropShape="rect"
+      showGrid={false}
+    />
   );
 };
 

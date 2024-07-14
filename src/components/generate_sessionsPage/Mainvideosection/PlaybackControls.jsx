@@ -1,8 +1,7 @@
 import React from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { HiVolumeUp } from "react-icons/hi";
-// import { Vid } from "../../../constants";
-import {Vid} from "../../../assets/vid.mp4";
+
 const PlaybackControls = ({
   playing,
   onPlayPause,
@@ -13,22 +12,19 @@ const PlaybackControls = ({
   currentPosition,
   duration,
   onSeek,
-  aspectRatio,
-  onAspectRatioChange,
 }) => {
   const handleSeekChange = (e) => {
     const newTime = (e.target.value / 100) * duration;
     onSeek(newTime);
   };
-
-  const formatTime = (seconds) => {
+  function formatTime(seconds) {
     const pad = (num) => (num < 10 ? "0" + num : num);
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secondsLeft = Math.floor(seconds % 60);
 
-    return `${pad(hours)}:${pad(minutes)}:${pad(secondsLeft)} `;
-  };
+    return `${pad(hours)}:${pad(minutes)}:${pad(secondsLeft)}` ;
+  }
 
   return (
     <div className="flex-col items-center justify-between w-full mt-4">
@@ -54,6 +50,7 @@ const PlaybackControls = ({
         </div>
 
         <div className="flex items-center text-white gap-2">
+          {/* <label className="text-white mr-2"></label> */}
           <HiVolumeUp className="" />
           <input
             type="range"
@@ -66,9 +63,9 @@ const PlaybackControls = ({
           />
         </div>
       </div>
-      <div className="flex justify-start">
-        <div className="rounded-md border border-gray-600 p-1 px-2 flex items-center my-4">
-          <label className="text-white text-sm">Playback Speed</label>
+      <div className="flex items-center my-4 ml-3">
+        <div className="rounded-md border border-gray-500 p-1">
+          <label className="text-white mr-2">Playback Speed</label>
           <select
             value={playbackRate}
             onChange={(e) => onPlaybackRateChange(parseFloat(e.target.value))}
@@ -80,19 +77,17 @@ const PlaybackControls = ({
             <option value={2.0}>2x</option>
           </select>
         </div>
-        <div className="rounded-md border border-gray-600 p-1 px-2 flex items-center my-4 ml-3">
+<div className="rounded-md border border-gray-600 p-1 px-2 flex items-center my-4 ml-3">
           <label className="text-white text-sm">Cropper Aspect Ratio</label>
           <select
             className="text-gray-400 bg-transparent"
-            value={aspectRatio}
-            onChange={(e) => onAspectRatioChange(e.target.value)}
           >
-            <option value="9:18">9:18</option>
-            <option value="9:16">9:16</option>
-            <option value="4:3">4:3</option>
-            <option value="3:4">3:4</option>
-            <option value="1:1">1:1</option>
-            <option value="4:5">4:5</option>
+            <option value={0.5}>9:18</option>
+            <option value={9 / 16}>9:16</option>
+            <option value={4 / 3}>4:3</option>
+            <option value={3 / 4}>3:4</option>
+            <option value={1}>1:1</option>
+            <option value={4 / 5}>4:5</option>
           </select>
         </div>
       </div>
