@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
 import PlaybackControls from "./PlaybackControls";
-import Cropper from "./VideoCropper";
+import Cropper from "./Cropper";
 import Vid from "../../../assets/vid.mp4";
 
 const VideoPlayer = ({ cropperActive }) => {
