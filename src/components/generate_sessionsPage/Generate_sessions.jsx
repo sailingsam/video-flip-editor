@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import VideoPlayer from "./Mainvideosection/VideoPlayer";
 import ReactPlayer from "react-player";
 import Vid from "../../assets/vid.mp4";
+import { IoLogoYoutube } from "react-icons/io";
+
 import {
   toggleCropper,
   setPlaying,
@@ -63,6 +65,22 @@ export default function GenerateSessions() {
             onSeek={handleSeek}
           />
         </div>
+        {!cropperActive && (
+          <div className="flex-1 flex text-center justify-center">
+            <span className="text-gray-400 absolute text-md font-semibold transp">
+              Preview
+            </span>
+            <div className="m-auto text-white text-3xl flex flex-col justify-center items-center gap-2">
+              <IoLogoYoutube />
+              <span className="text-sm font-semibold">
+                Preview not available
+              </span>
+              <span className="text-gray-400 text-sm font-semibold">
+                Pleas click on "Start Cropper" <br /> and then play video
+              </span>
+            </div>
+          </div>
+        )}
         {cropperActive && (
           <div className="flex-1 flex justify-center">
             <div
@@ -95,9 +113,13 @@ export default function GenerateSessions() {
             className="h-full text-center bg-purple-800 px-2 rounded-lg"
             onClick={() => dispatch(toggleCropper())}
           >
-            <span className="text-white font-semibold">
-              {cropperActive ? "Remove Cropper" : "Start Cropper"}
-            </span>
+            <span className="text-white font-semibold">Start Cropper</span>
+          </button>
+          <button
+            className="h-full text-center bg-purple-800 px-2 rounded-lg"
+            onClick={() => dispatch(toggleCropper())}
+          >
+            <span className="text-white font-semibold">Remove Cropper</span>
           </button>
           <button className="h-full text-center bg-purple-800 px-2 rounded-lg">
             <span className="text-white font-semibold">Generate Preview</span>
