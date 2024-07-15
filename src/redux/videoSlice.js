@@ -6,7 +6,12 @@ const initialState = {
   playbackRate: 1.0,
   volume: 1,
   currentPosition: 0,
+  cropperDimensions: { width: 0, height: 0 },
 };
+  // Add to initialState
+
+
+// Add reducers
 
 const videoSlice = createSlice({
   name: 'video',
@@ -27,9 +32,12 @@ const videoSlice = createSlice({
     setCurrentPosition(state, action) {
       state.currentPosition = action.payload;
     },
+    setCropperDimensions(state, action) {
+      state.cropperDimensions = action.payload;
+    },
   },
 });
 
-export const { toggleCropper, setPlaying, setPlaybackRate, setVolume, setCurrentPosition } = videoSlice.actions;
+export const { toggleCropper, setPlaying, setPlaybackRate, setVolume, setCurrentPosition, setCropperDimensions } = videoSlice.actions;
 
 export default videoSlice.reducer;

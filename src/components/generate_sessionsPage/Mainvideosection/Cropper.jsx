@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
+import { useDispatch } from "react-redux";
+import { setCropperDimensions } from "../../../redux/videoSlice";
 
 const Cropper = ({ aspectRatio, videoHeight }) => {
+  const dispatch = useDispatch();
   const [cropperState, setCropperState] = useState({
     x: 0,
     y: 0,
@@ -15,7 +18,13 @@ const Cropper = ({ aspectRatio, videoHeight }) => {
       width: videoHeight * aspectRatio,
       height: videoHeight,
     }));
-  }, [aspectRatio, videoHeight]);
+    dispatch(
+      setCropperDimensions({
+        width: cropperState.width,
+        height: cropperState.height,
+      })
+    );
+  }, [aspectRatio, videoHeight, dispatch]);
 
   const handleDrag = (e, data) => {
     setCropperState({
