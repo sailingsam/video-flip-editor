@@ -64,8 +64,8 @@ const PlaybackControls = ({
           />
         </div>
       </div>
-      <div className="flex items-center my-4 ml-3">
-        <div className="rounded-md border border-gray-500 p-1">
+      <div className="flex items-center my-4">
+        <div className="rounded-md border border-gray-600 p-1 px-2 ">
           <label className="text-white mr-2">Playback Speed</label>
           <select
             value={playbackRate}
@@ -78,9 +78,14 @@ const PlaybackControls = ({
             <option value={2.0}>2x</option>
           </select>
         </div>
-        <div className="rounded-md border border-gray-600 p-1 px-2 flex items-center my-4 ml-3">
+        <div className="rounded-md border border-gray-600 p-1 px-2 ml-3">
           <label className="text-white text-sm">Cropper Aspect Ratio</label>
-          <select className="text-gray-400 bg-transparent" onChange={(e) => {onAspectRatioChange(parseFloat(e.target.value))}}>
+          <select
+            className="text-gray-400 bg-transparent"
+            onChange={(e) => {
+              onAspectRatioChange(parseFloat(e.target.value));
+            }}
+          >
             <option value={9 / 18}>9:18</option>
             <option value={9 / 16}>9:16</option>
             <option value={4 / 3}>4:3</option>
