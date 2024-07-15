@@ -1,51 +1,47 @@
-import React, { useState, useRef, useEffect } from "react";
-import ReactPlayer from "react-player";
-import PlaybackControls from "./PlaybackControls";
-import Cropper from "./Cropper";
-import Vid from "../../../assets/vid.mp4";
+import React, { useRef, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import ReactPlayer from 'react-player';
+import Vid from '../../../assets/vid.mp4';
+import PlaybackControls from './PlaybackControls';
+import Cropper from './Cropper';
+import { setPlaying, setPlaybackRate, setVolume, setCurrentPosition } from '../../../redux/videoSlice';
 
 const VideoPlayer = ({ cropperActive }) => {
-  const [playing, setPlaying] = useState(false);
-  const [playbackRate, setPlaybackRate] = useState(1.0);
-  const [volume, setVolume] = useState(1);
-  const [currentPosition, setCurrentPosition] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [aspectRatio, setAspectRatio] = useState(16 / 9);
-  const [videoHeight, setVideoHeight] = useState(290);
+  const { playing, playbackRate, volume, currentPosition } = useSelector((state) => state.video);
+  const dispatch = useDispatch();
   const playerRef = useRef(null);
+  const [aspectRatio, setAspectRatio] = useState(16 / 9);
 
   const handlePlayPause = () => {
-    setPlaying(!playing);
+    dispatch(setPlaying(!playing));
   };
 
   const handlePlaybackRateChange = (rate) => {
-    setPlaybackRate(rate);
+    dispatch(setPlaybackRate(rate));
   };
 
   const handleVolumeChange = (e) => {
-    setVolume(parseFloat(e.target.value));
+    dispatch(setVolume(parseFloat(e.target.value)));
   };
 
   const handleSeek = (time) => {
     playerRef.current.seekTo(time);
+    dispatch(setCurrentPosition(time));
   };
 
-  const handleAspectRatioChange = (aspectRatio) => {
-    setAspectRatio(aspectRatio);
+  const handleAspectRatioChange = (ratio) => {
+    setAspectRatio(ratio);
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (playerRef.current) {
-        setCurrentPosition(playerRef.current.getCurrentTime());
-        setDuration(playerRef.current.getDuration());
+        dispatch(setCurrentPosition(playerRef.current.getCurrentTime()));
       }
-      const height = playerRef.current.wrapper.clientHeight;
-      setVideoHeight(height);
     }, 200);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="flex flex-col items-center relative">
@@ -59,13 +55,13 @@ const VideoPlayer = ({ cropperActive }) => {
           width="100%"
           height="290px"
           onEnded={() => {
-            setPlaying(false);
-            setCurrentPosition(0);
+            dispatch(setPlaying(false));
+            dispatch(setCurrentPosition(0));
             playerRef.current.seekTo(0);
           }}
         />
         {cropperActive && (
-          <Cropper aspectRatio={aspectRatio} videoHeight={videoHeight} />
+          <Cropper aspectRatio={aspectRatio} videoHeight={290} />
         )}
       </div>
       <PlaybackControls
@@ -76,7 +72,7 @@ const VideoPlayer = ({ cropperActive }) => {
         volume={volume}
         onVolumeChange={handleVolumeChange}
         currentPosition={currentPosition}
-        duration={duration}
+        duration={playerRef.current?.getDuration() || 0}
         onSeek={handleSeek}
         onAspectRatioChange={handleAspectRatioChange}
       />

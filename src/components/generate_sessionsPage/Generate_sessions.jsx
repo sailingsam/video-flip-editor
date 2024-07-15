@@ -1,34 +1,29 @@
-import React, { useState, useRef, useEffect } from "react";
-import VideoPlayer from "./Mainvideosection/VideoPlayer";
-import ReactPlayer from "react-player";
-import Vid from "../../assets/vid.mp4";
-import PlaybackControls from "./Mainvideosection/PlaybackControls"; // Import the PlaybackControls
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import VideoPlayer from './Mainvideosection/VideoPlayer';
+import ReactPlayer from 'react-player';
+import Vid from '../../assets/vid.mp4';
+import { toggleCropper, setPlaying, setPlaybackRate, setVolume, setCurrentPosition } from '../../redux/videoSlice';
 
 export default function GenerateSessions() {
-  const [cropperActive, setCropperActive] = useState(false);
-  const [playing, setPlaying] = useState(false);
-  const [playbackRate, setPlaybackRate] = useState(1.0);
-  const [volume, setVolume] = useState(1);
-  const [currentPosition, setCurrentPosition] = useState(0);
+  const { cropperActive, playing, playbackRate, volume, currentPosition } = useSelector((state) => state.video);
+  const dispatch = useDispatch();
   const previewPlayerRef = useRef(null);
 
-  // Sync the state between both players
   const handlePlayPause = () => {
-    setPlaying(!playing);
+    dispatch(setPlaying(!playing));
   };
 
   const handlePlaybackRateChange = (rate) => {
-    setPlaybackRate(rate);
+    dispatch(setPlaybackRate(rate));
   };
 
   const handleVolumeChange = (e) => {
-    const volume = parseFloat(e.target.value);
-    setVolume(volume);
+    dispatch(setVolume(parseFloat(e.target.value)));
   };
 
   const handleSeek = (time) => {
-    previewPlayerRef.current.seekTo(time);
-    setCurrentPosition(time);
+    dispatch(setCurrentPosition(time));
   };
 
   useEffect(() => {
@@ -63,24 +58,15 @@ export default function GenerateSessions() {
               volume={volume}
               width="90%"
               height="290px"
-              onProgress={({ playedSeconds }) => setCurrentPosition(playedSeconds)}
+              onProgress={({ playedSeconds }) => dispatch(setCurrentPosition(playedSeconds))}
             />
           </div>
         )}
       </div>
       <div className="h-20 border-t-[1px] border-t-slate-600 p-6 flex justify-between">
         <div className="flex gap-3">
-          <button
-            className="h-full text-center bg-purple-800 px-2 rounded-lg"
-            onClick={() => setCropperActive(true)}
-          >
-            <span className="text-white font-semibold">Start Cropper</span>
-          </button>
-          <button
-            className="h-full text-center bg-purple-800 px-2 rounded-lg"
-            onClick={() => setCropperActive(false)}
-          >
-            <span className="text-white font-semibold">Remove Cropper</span>
+          <button className="h-full text-center bg-purple-800 px-2 rounded-lg" onClick={() => dispatch(toggleCropper())}>
+            <span className="text-white font-semibold">{cropperActive ? 'Remove Cropper' : 'Start Cropper'}</span>
           </button>
           <button className="h-full text-center bg-purple-800 px-2 rounded-lg">
             <span className="text-white font-semibold">Generate Preview</span>

@@ -12,18 +12,21 @@
   - App.css
   - App.jsx
   - assets
+    - generatedPreviews
     - react.svg
     - vid.mp4
   - components
     - generate_sessionsPage
       - Generate_sessions.jsx
       - Mainvideosection
+        - Cropper.jsx
         - PlaybackControls.jsx
-        - VideoCropper.jsx
         - VideoPlayer.jsx
       - previewarea
     - preview_sessionsPage
   - index.css
   - main.jsx
+  - redux
+  - utils
 - tailwind.config.js
 - vite.config.js

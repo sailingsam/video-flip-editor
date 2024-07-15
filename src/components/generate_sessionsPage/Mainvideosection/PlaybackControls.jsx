@@ -18,6 +18,7 @@ const PlaybackControls = ({
     const newTime = (e.target.value / 100) * duration;
     onSeek(newTime);
   };
+  
   function formatTime(seconds) {
     const pad = (num) => (num < 10 ? "0" + num : num);
     const hours = Math.floor(seconds / 3600);
@@ -47,12 +48,10 @@ const PlaybackControls = ({
         <div className="flex text-gray-400">
           <div className="text-white">{formatTime(currentPosition)}</div>
           <span>&nbsp;|&nbsp;</span>
-          {formatTime(duration)}
+          <div>{formatTime(duration)}</div>
         </div>
-
         <div className="flex items-center text-white gap-2">
-          {/* <label className="text-white mr-2"></label> */}
-          <HiVolumeUp className="" />
+          <HiVolumeUp />
           <input
             type="range"
             min="0"
@@ -65,7 +64,7 @@ const PlaybackControls = ({
         </div>
       </div>
       <div className="flex items-center my-4">
-        <div className="rounded-md border border-gray-600 p-1 px-2 ">
+        <div className="rounded-md border border-gray-600 p-1 px-2">
           <label className="text-white mr-2">Playback Speed</label>
           <select
             value={playbackRate}
@@ -82,9 +81,7 @@ const PlaybackControls = ({
           <label className="text-white text-sm">Cropper Aspect Ratio</label>
           <select
             className="text-gray-400 bg-transparent"
-            onChange={(e) => {
-              onAspectRatioChange(parseFloat(e.target.value));
-            }}
+            onChange={(e) => onAspectRatioChange(parseFloat(e.target.value))}
           >
             <option value={9 / 18}>9:18</option>
             <option value={9 / 16}>9:16</option>
